@@ -174,12 +174,6 @@ The source files and build tools are not required to run the finished applicatio
 - GDI+
 - Windows Shell APIs
 
-## License
-
-A software license should be added before treating the repository as an open-source project.
-
-See the repository `LICENSE` file once a license has been selected.
-
 ---
 
 **Visual MediaPlayer**
