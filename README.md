@@ -4,7 +4,7 @@ A lightweight native Windows media library and player for **videos, images, and 
 
 Built with **C++17**, **Win32**, **Direct3D 11**, and **Windows Media Foundation**.
 
-**Current version: 12.5.5**
+**Current version: 1.0**
 
 ## Download
 
