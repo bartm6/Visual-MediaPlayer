@@ -1,7 +1,0 @@
-#pragma once
-#define IDI_APP_ICON 101
-
-#define IDR_FOLDER_PNG 201
-#define IDR_REFRESH_PNG 202
-#define IDR_SKIP_BACK_30_PNG 203
-#define IDR_SKIP_FORWARD_30_PNG 204
