@@ -1,289 +1,163 @@
 # Visual MediaPlayer
 
-**Visual MediaPlayer** is a lightweight native Windows media library and player for local **videos, images, and VR media**.
+**Visual MediaPlayer** is a native Windows media library and player for local **videos, images, and VR media**.
 
-It is built in **C++17** with **Win32**, **Direct3D 11**, **Windows Media Foundation**, **GDI+**, and **Windows Imaging Component (WIC)**. The interface is designed around fast folder browsing, large visual previews, keyboard navigation, native-resolution viewing, and minimal UI clutter.
+It is designed for fast visual browsing, simple keyboard and mouse navigation, native-resolution viewing, and a compact interface without unnecessary media-center features.
 
-**Current version: 12.5.5**  
-**Platform: 64-bit Windows 10 / Windows 11**
+**Platform:** 64-bit Windows 10 / Windows 11
 
 ---
 
-## Highlights
+## Features
 
-- Local video and image library with folder navigation
-- Fast thumbnail browsing with a bounded in-memory thumbnail cache
-- Video Info screen with a generated hero banner and timeline previews
-- Click a timeline image to start playback from that point
-- Search inside the current folder simply by typing
-- Search filters for **VR**, **4K**, **5K**, and **8K** media
-- Search-result-aware previous/next navigation
-- Native Direct3D 11 video rendering
-- **VR180 / 360°** playback with stereo-layout detection
-- Side-by-side and top/bottom VR support
-- Mouse-look and FOV zoom for VR
-- Cursor-anchored zoom and click-drag panning for normal videos and images
-- **Native Size** mode for non-VR videos and images
+- Browse local video and image folders visually
+- Fast thumbnail-based library
+- Video Info view with timeline previews
+- Search within the current folder
+- Search filters for **VR**, **4K**, **5K**, and **8K**
+- Previous/next navigation that respects active search results
+- Normal video and image zoom with mouse-position anchoring
+- Click-drag panning while zoomed
+- **Native Size** viewing for normal videos and images
+- **VR180 / 360°** playback with mouse-look and FOV zoom
 - Auto Next for videos
-- Image slideshow with smooth transitions
-- Fullscreen support in Library, Info, and Player views
-- Resolution badges and VR badges on Library cards and Info banners
-- Broad video/image extension recognition
-- Non-blocking in-app notices for unavailable folders and unsupported media
-- Automatically reloads a saved library when its drive becomes available again
+- Image slideshow
+- Fullscreen Library, Info, and Player views
+- Resolution and VR badges
+- Broad video and image format recognition
+- In-app notices for unavailable folders and unsupported media
+- Automatic reopening of a saved library when it becomes available again
 - Windows **Open with Visual MediaPlayer** integration
 - Portable and Installer builds
 - Original media files are never modified
 
 ---
 
-# Quick Start
+## Quick Start
 
 1. Start **Visual MediaPlayer**.
-2. Click the **Folder** button and choose the root of your media library.
-3. Use the **Videos / Images** toggle to change media category.
-4. Open folders normally and click a media card to open its Info screen.
+2. Click the **Folder** button and choose your media library.
+3. Switch between **Videos** and **Images** as needed.
+4. Click a media card to open its Info view.
 5. For video, click **Play** or press `Space`.
-6. For images, use `Space` to start/stop the slideshow from the currently opened image.
+6. For images, press `Space` to start or stop the slideshow.
 
-The selected library root is remembered between launches.
-
-If no library is currently loaded, the Library displays:
-
-> **Choose a folder to load videos and images.**
+The selected library is remembered between launches.
 
 ---
 
-# Application Views
+# Controls
 
-Visual MediaPlayer has three main views.
-
-## 1. Library
-
-The Library shows folders and the media contained directly in the current folder.
-
-Features include:
-
-- Folder navigation
-- Videos / Images category toggle
-- Media count for the current folder
-- Instant text search
-- VR and resolution badges
-- Adjustable media-card size
-- Fullscreen Library browsing
-- Image slideshow shortcut
-- Root-level Folder, Refresh, and Load Everything controls
-
-### Library layout
-
-On a 4K-class fullscreen display, the Library initially lays out **8 media cards per row**. This is only the starting size—you can still resize cards with `Ctrl + Mouse Wheel` while fullscreen.
-
-Windowed layouts remain freely scalable as well.
-
-### Library thumbnail memory
-
-Visual MediaPlayer keeps a soft target of approximately **300 Library thumbnails in RAM**. Currently visible cards and nearby prefetched rows are protected from eviction so scrolling remains responsive.
-
-Thumbnails are loaded/generated only when needed rather than continuously walking the entire library while idle.
-
----
-
-## 2. Info
-
-Clicking a media card opens its Info screen.
-
-### Video Info
-
-The Video Info screen contains:
-
-- Large video banner
-- VR badge when applicable
-- 4K / 5K / 8K badge when applicable
-- Secondary timeline preview images
-- Timestamp labels
-- Previous / next media arrows
-- **Play** button
-- Fullscreen control
-
-Click any timeline preview to begin playback at that approximate timestamp.
-
-### Timeline layout
-
-- **Windowed:** defaults to **7 timeline images per row**
-- **Fullscreen:** defaults to **10 timeline images per row**
-- `Ctrl + Mouse Wheel` changes timeline-card size
-
-### Image Info
-
-The Image Info screen provides:
-
-- Large contained image view
-- Previous / next image navigation
-- Slideshow control
-- Native Size control
-- Fullscreen control
-- Cursor-anchored image zoom
-- Click-drag panning while zoomed
-
----
-
-## 3. Player
-
-The video Player contains:
-
-- Back
-- Play / Pause
-- 30-second skip backward
-- 30-second skip forward
-- Seek timeline
-- Current time / duration
-- Volume
-- Auto Next
-- Native Size for non-VR video
-- Fullscreen
-- VR 180° / 360° toggle when playing VR media
-- Previous / next video buttons at the sides of the player
-
-The control layout automatically rearranges on narrow windows so buttons do not overlap.
-
-Video rendering continues while the application window is being moved or resized.
-
----
-
-# Keyboard & Mouse Reference
-
-## Global / Common
+## Global
 
 | Input | Action |
 |---|---|
 | `F11` | Toggle fullscreen |
-| `Esc` | Context-sensitive Back / reset action; see the sections below |
-| Drag the title bar | Move the app window; active video/image rendering continues |
+| `Esc` | Context-sensitive Back / reset |
+| Drag title bar | Move the app window |
 
-Fullscreen is preserved when `Esc` has a more specific action to perform. At the top Library with nothing else to close, `Esc` exits fullscreen.
+`Esc` performs the most useful action for the current view. It does not leave fullscreen if there is another navigation or reset action to perform first.
 
 ---
 
-## Library Controls
+## Library
 
 | Input | Action |
 |---|---|
-| Type normally | Start/search within the current folder |
-| `Space` while typing/searching | Inserts a normal space in the search |
-| `Ctrl + F` | Open/focus search; selects the existing query when present |
-| `Ctrl + A` | Select all current search text |
+| Type normally | Search the current folder |
+| `Ctrl + F` | Open/focus search |
+| `Ctrl + A` | Select all search text |
 | `Backspace` | Delete search characters |
-| `Enter` | Open the first matching search result |
-| `Esc` while search is open | Clear and close search |
-| `Esc` in a subfolder | Go up one folder |
-| `Esc` at Library root while fullscreen | Exit fullscreen |
-| Mouse Wheel | Scroll Library |
-| `Ctrl + Mouse Wheel` | Resize Library cards |
-| Drag scrollbar thumb | Scroll Library directly |
-| `F11` | Toggle fullscreen |
+| `Enter` | Open the first search result |
+| `Esc` | Close search, go up a folder, or leave fullscreen at the Library root |
+| Mouse Wheel | Scroll |
+| `Ctrl + Mouse Wheel` | Resize media cards |
+| Click media | Open Info view |
 
-### Returning from search
-
-When you open a media item from search:
-
-- Info-screen Left/Right navigation stays inside that search result set.
-- Returning to Library keeps the search active.
-- The item you returned from is centered and receives the animated focus/breathing highlight.
+When media is opened from a search, previous/next navigation remains inside that search result set. Returning to the Library keeps the search active and highlights the media you came from.
 
 ---
 
-## Video Info Controls
+## Video Info
 
 | Input | Action |
 |---|---|
-| `Space` | Play the selected video |
-| `Left Arrow` | Previous video in the current navigation set |
-| `Right Arrow` | Next video in the current navigation set |
-| Mouse Wheel | Scroll the Info page |
-| `Ctrl + Mouse Wheel` | Resize secondary timeline previews |
-| Click timeline image | Start playback from that timestamp |
-| `Esc` | Return to Library while preserving fullscreen |
+| `Space` | Play video |
+| `Left Arrow` | Previous video |
+| `Right Arrow` | Next video |
+| Mouse Wheel | Scroll the Info view |
+| `Ctrl + Mouse Wheel` | Resize timeline previews |
+| Click timeline preview | Start playback from that point |
+| `Esc` | Return to Library |
 | `F11` | Toggle fullscreen |
-
-If the video was opened from a search result, Left/Right stays within those searched results.
 
 ---
 
-## Image Info Controls
+## Image Info
 
 | Input | Action |
 |---|---|
-| `Space` | Start / stop slideshow from the current image |
+| `Space` | Start / stop slideshow |
 | `Left Arrow` | Previous image |
 | `Right Arrow` | Next image |
-| Mouse Wheel over image | Zoom toward/away from the mouse position |
-| Left-click + drag while zoomed | Pan the zoomed image |
-| First `Esc` while zoomed | Reset to normal fit-to-window image |
+| Mouse Wheel | Zoom toward/away from the mouse position |
+| Left-click + drag while zoomed | Pan image |
+| First `Esc` while zoomed | Reset to fit-to-window |
 | Next `Esc` | Return to Library |
 | `F11` | Toggle fullscreen |
 
-Free zoom/pan is disabled while **Native Size** is active.
+Free zoom and panning are disabled while **Native Size** is active.
 
 ---
 
-## Normal Video Player Controls
+## Normal Video Player
 
 | Input | Action |
 |---|---|
-| `Space` | Play / Pause |
-| `Left Arrow` | Skip backward **30 seconds** |
-| `Right Arrow` | Skip forward **30 seconds** |
-| Mouse Wheel | Zoom toward/away from the mouse position |
-| Left-click + drag while zoomed | Pan the zoomed video |
-| First `Esc` while zoomed | Reset video to normal fit-to-window |
-| Next `Esc` | Return to Info |
-| `F11` | Toggle fullscreen |
-
-The ±30-second keyboard seek does **not** force the player controls to pop open.
-
-Use the large side-arrow buttons for previous/next **video** navigation. Keyboard Left/Right remains dedicated to ±30-second seeking during playback.
-
-Free zoom/pan is disabled while **Native Size** is active.
-
----
-
-## VR Player Controls
-
-| Input | Action |
-|---|---|
-| Left-click + drag | Look around the VR scene |
-| Mouse Wheel | Change VR field of view |
 | `Space` | Play / Pause |
 | `Left Arrow` | Skip backward 30 seconds |
 | `Right Arrow` | Skip forward 30 seconds |
+| Mouse Wheel | Zoom toward/away from the mouse position |
+| Left-click + drag while zoomed | Pan video |
+| First `Esc` while zoomed | Reset to fit-to-window |
+| Next `Esc` | Return to Info |
 | `F11` | Toggle fullscreen |
+
+Use the large side-arrow buttons for previous/next **video** navigation.
+
+The 30-second keyboard seek does not force the player controls to appear.
+
+---
+
+## VR Player
+
+| Input | Action |
+|---|---|
+| Left-click + drag | Look around |
+| Mouse Wheel | Change field of view |
+| `Space` | Play / Pause |
+| `Left Arrow` | Skip backward 30 seconds |
+| `Right Arrow` | Skip forward 30 seconds |
 | `Esc` | Return to Info |
-| **180° / 360° button** | Toggle VR projection mode |
+| `F11` | Toggle fullscreen |
+| **180° / 360°** button | Change VR projection mode |
 
-VR keeps its own independent mouse-look and FOV system. The normal flat-video zoom/pan system does not alter VR behavior.
-
-The **Native Size** control is intentionally hidden for VR videos.
+VR uses its own mouse-look and zoom system. Normal flat-media zoom and Native Size do not affect VR playback.
 
 ---
 
 # Search
 
-Search is local to the folder currently being viewed.
+Search works inside the folder currently being viewed. Simply start typing in the Library.
 
-You do not need to click a search box first—simply start typing in the Library.
+Special filters can be used on their own or together with normal text:
 
-Search supports normal text plus special media filters.
-
-## Search Filters
-
-| Search token | Matches |
+| Filter | Matches |
 |---|---|
 | `VR` | VR videos |
 | `4K` | 4K, 5K, and 8K videos |
 | `5K` | 5K and 8K videos |
 | `8K` | 8K videos |
-
-Filters can be combined with normal text.
 
 Examples:
 
@@ -293,36 +167,7 @@ concert vr
 vacation 8k
 ```
 
-A resolution search may need to determine a video's resolution the first time it is encountered. That resolution is then stored as tiny cached metadata so future launches do not need to probe the same unchanged file again.
-
----
-
-# VR Media
-
-Visual MediaPlayer supports VR media including:
-
-- VR180
-- 360° video
-- Side-by-side stereo (SBS / LR)
-- Top/bottom stereo (TB / OU)
-- Mono panoramic VR
-- Automatic stereo-layout detection for ambiguous files
-- Single-eye rendering of stereo-packed sources
-
-## VR filename detection
-
-VR detection recognizes common markers such as:
-
-- `VR`
-- `VR180`
-- `180VR`
-- filenames ending in `360`
-- filenames ending in forms such as `360 (2)`
-- `SBS`, `LR`, `TB`, `OU` stereo-layout markers
-
-Stereo-packed VR defaults to the front-facing **180°** view. Use the VR projection button to switch between **180°** and **360°** while playing.
-
-For stereo-packed material viewed in 360° mode, the rear hemisphere is handled without stretching the front 180° source across the entire sphere.
+Resolution information is cached after it has been determined, so unchanged files do not need to be checked again on every launch.
 
 ---
 
@@ -330,332 +175,163 @@ For stereo-packed material viewed in 360° mode, the rear hemisphere is handled 
 
 Native Size is available for:
 
-- Normal/non-VR videos in the Player
-- Images in the Info view
+- Normal/non-VR videos
+- Images
 
-When enabled, Visual MediaPlayer attempts to show the source at **1 media pixel = 1 screen pixel**.
+When enabled, the app attempts to display the media at **1 source pixel = 1 screen pixel**.
 
-## Windowed Native Size
+### Windowed
 
-The window is resized and centered so its actual client/render area matches the media's native dimensions whenever the monitor can physically accommodate them.
+The application window resizes and stays centered on the active monitor. If the media is larger than the display, it is reduced only enough to fit.
 
-If the source is larger than the monitor, it is reduced only enough to fit.
+### Fullscreen
 
-## Fullscreen Native Size
+The app remains fullscreen, while the media itself stays at its native pixel size and is centered on screen.
 
-The app remains fullscreen, but the media itself is rendered at its native pixel dimensions and centered instead of automatically enlarging to fill the display.
+Turning Native Size off returns the application to its normal window size. Leaving the media session also resets Native Size for the next use.
 
-## Standard window size
-
-When Native Size is turned off or a media session is exited, the normal window returns to **50% of the active monitor's width and 50% of its height**, centered on that monitor.
-
-Examples:
-
-| Monitor | Standard window |
-|---|---|
-| 3840×2160 | 1920×1080 |
-| 2560×1440 | 1280×720 |
-| 1920×1080 | 960×540 |
-
-If fullscreen is active, returning from Native Size keeps the app fullscreen rather than changing the window size.
-
-## Native Size + Auto Next / Slideshow
-
-- Auto Next reapplies Native Size for each new normal video.
-- If a VR video occurs between normal videos, Native Size is temporarily suspended for that VR video and resumes on the next normal video.
-- Image slideshow reapplies Native Size for each new image.
-- Leaving the video/image session resets Native Size for the next use.
+If Auto Next or slideshow is active, Native Size is reapplied to each new normal video or image.
 
 ---
 
-# Auto Next & Volume
+# Auto Next, Slideshow & Volume
 
 ## Auto Next
 
-Auto Next plays the next video in the current folder when playback finishes.
+Auto Next plays the next video when the current one finishes.
 
-If the video has already reached the end while Auto Next is off, enabling Auto Next immediately advances to the next available video.
+If a video has already ended and Auto Next is then enabled, the player advances immediately.
 
-When leaving the Player, Auto Next is reset to **Off** for the next playback session.
+Auto Next is reset to **Off** when leaving the Player.
 
-## Volume behavior
+## Volume
 
-A new playback session starts at **30% volume**.
+A new video playback session starts at **30% volume**.
 
-If you change the volume while **Auto Next** is enabled, that adjusted volume is carried into the next automatically played video.
+If you change the volume while Auto Next is active, that volume is carried into the next automatically played video. Leaving the Player resets the next session to 30%.
 
-Leaving the Player resets the next playback session to **30%**.
+## Image Slideshow
 
----
+The slideshow advances through images in the current folder and can be started or stopped with `Space`.
 
-# Image Slideshow
-
-The slideshow operates on images in the current folder.
-
-- Starts from the currently opened image when launched from Info
-- Can be started with `Space`
-- Advances every **3 seconds**
-- Uses a smooth transition between images
-- Native Size is reapplied per image when enabled
-- Stops when leaving the image session
-- Slideshow state is reset for the next use
-
-If the slideshow is enabled while already on the final image, it immediately wraps to the first image rather than appearing to do nothing.
+Slideshow state is reset when leaving the image session.
 
 ---
 
-# Resolution & VR Badges
+# VR Media
 
-Video cards can display:
+Visual MediaPlayer supports common VR layouts including:
 
-- **VR** icon
-- **4K** icon
-- **5K** icon
-- **8K** icon
+- VR180
+- 360° video
+- Side-by-side stereo (SBS / LR)
+- Top/bottom stereo (TB / OU)
+- Mono panoramic VR
 
-The same applicable badges are also shown in the upper-right corner of the Video Info banner.
+Common filename markers such as `VR`, `VR180`, `180VR`, `360`, `SBS`, `LR`, `TB`, and `OU` are used to help identify VR media and stereo layout.
 
-Resolution is based on the source video's native frame dimensions. Nearby cinema/VR dimensions can be classified into the closest supported 4K/5K/8K class rather than requiring one exact consumer-TV dimension.
-
-Resolution metadata is cached per source version. If the source file changes, its cache identity changes and the metadata is determined again.
-
----
-
-# Load Everything
-
-**Load Everything** is available at the selected library root.
-
-It pre-generates missing media data for the library, including the applicable:
-
-- Library banners/thumbnails
-- Info banners
-- Video timeline previews
-- Video resolution metadata
-
-A progress popup appears in the upper-right while the operation is running.
-
-Existing healthy cache data is reused instead of regenerated unnecessarily.
-
-This control is intentionally restricted to the actual selected Library root rather than subfolders.
+Stereo-packed VR opens in the normal 180° view. Use the player control to switch between 180° and 360°.
 
 ---
 
-# Folder, Refresh & Library Availability
+# Library Cache & Load Everything
 
-The main maintenance controls are shown at the selected Library root:
+Visual MediaPlayer generates thumbnails, Info banners, timeline previews, and small metadata files to make future browsing faster.
 
-- **Load Everything**
-- **Refresh**
-- **Choose Folder**
-
-If the saved library drive becomes unavailable, Visual MediaPlayer clears the unavailable Library contents from the interface and shows a compact pulsing in-app notice:
-
-> **This folder is unavailable.**
-
-The empty Library continues to show:
-
-> **Choose a folder to load videos and images.**
-
-When the saved library becomes available again, Visual MediaPlayer automatically reopens/rescans it.
-
-No confirmation dialog is required.
-
----
-
-# Unsupported Media
-
-Visual MediaPlayer recognizes a broad range of media extensions, but the actual ability to decode a particular file also depends on the file's codec/encoding and the media components available on the Windows system.
-
-If a recognized file cannot be decoded, Visual MediaPlayer shows the same compact non-blocking in-app notification style:
-
-> **This media is unsupported.**
-
-The message appears in the upper-right, pulses for approximately five seconds, and then disappears automatically.
-
-Background thumbnail scanning does not spam error dialogs for files that cannot be decoded.
-
----
-
-# Recognized Media Extensions
-
-Recognition means the file can appear in the Visual MediaPlayer library and the application will attempt to open it. It does **not** guarantee that every possible codec stored inside every container can be decoded on every Windows installation.
-
-## Video extensions
-
-<details>
-<summary>Show recognized video extensions</summary>
-
-```text
-.mp4   .m4v   .mkv   .mk3d  .webm  .avi   .divx  .mov
-.qt    .wmv   .asf   .mpg   .mpeg  .mpe   .mpv   .mpv2
-.m1v   .m2v   .m2p   .ts    .m2t   .mts   .m2ts  .tp
-.trp   .vob   .vro   .ogv   .ogm   .flv   .f4v   .f4p
-.3gp   .3g2   .3gp2  .3gpp  .rm    .rmvb  .rv    .mxf
-.gxf   .dv    .dif   .dvr-ms .wtv  .mod   .tod   .amv
-.ivf   .y4m   .nut   .nsv   .roq   .smk   .bik   .bk2
-.mjpeg .mjpg  .mjp   .h264  .264   .avc   .h265  .265
-.hevc  .vp8   .vp9   .av1   .r3d   .braw  .ari   .cine
-.crm   .insv  .lrv   .360   .evo   .mj2
-```
-
-</details>
-
-Video playback uses **Windows Media Foundation**. A listed extension may still contain a codec that is unavailable on the current system; in that case the in-app unsupported-media notice is shown.
-
-## Image extensions
-
-<details>
-<summary>Show recognized image extensions</summary>
-
-```text
-.jpg   .jpeg  .jpe   .jfif  .jif   .jfi   .png   .apng
-.bmp   .dib   .gif   .tif   .tiff  .webp  .heic  .heif
-.hif   .avif  .avifs .jxl   .jp2   .j2k   .j2c   .jpf
-.jpx   .jpm   .jxr   .wdp   .hdp   .tga   .targa .icb
-.vda   .vst   .dds   .pcx   .ico   .cur   .mng   .psd
-.psb   .exr   .hdr   .rgbe  .pic   .pfm   .pnm   .ppm
-.pgm   .pbm   .pam   .qoi   .sgi   .rgb   .rgba  .bw
-.ras   .sun   .xbm   .xpm   .svg   .svgz  .dng   .cr2
-.cr3   .crw   .nef   .nrw   .arw   .srf   .sr2   .raf
-.orf   .rw2   .rwl   .pef   .x3f   .3fr   .fff   .iiq
-.erf   .mef   .mos   .mrw   .kdc   .dcr   .raw   .srw
-.bay   .cap   .eip   .mdc   .rwz
-```
-
-</details>
-
-Images are decoded using **GDI+** with a **Windows Imaging Component (WIC)** fallback where available.
-
-Some specialized, RAW, vector, HDR, or newer formats require a compatible Windows imaging codec/provider.
-
----
-
-# Cache
-
-Visual MediaPlayer creates its generated media cache beside the corresponding media folders under:
+Generated data is stored in:
 
 ```text
 .visualmediaplayer-cache
 ```
 
-The cache can contain generated items such as:
-
-- Library thumbnails/banners
-- Native Info banners
-- Timeline images
-- Timeline completion/duration data
-- Tiny resolution metadata files
-
-Cache entries are tied to the source media identity, including information such as file size and modification time. Changing/replacing a source therefore produces a new cache identity rather than blindly trusting stale data.
-
 Original media files are never modified.
 
-The application also avoids keeping source media open unnecessarily once generated images have been copied into RAM. Active video playback is the primary operation that needs to retain continuous access to the source video.
+**Load Everything** can be used from the selected library root to pre-generate missing preview data for the library. Existing healthy cache data is reused.
 
 ---
 
-# Filename Display & Sorting
+# Folder Availability
 
-Visual MediaPlayer uses natural media-oriented sorting rather than simple string order.
+If the selected library becomes unavailable, Visual MediaPlayer unloads the inaccessible library contents and shows:
 
-Numeric suffixes are treated numerically, so for example:
+> **This folder is unavailable.**
 
-```text
-Movie (1)
-Movie (2)
-Movie (10)
-Movie (100)
-```
+The normal empty-library prompt remains available so another folder can be selected.
 
-sort in the expected order.
-
-Paired/ampersand names and `360` suffixes are grouped consistently so related media stays together.
-
-For images whose filename begins with a generated dimension prefix such as:
-
-```text
-2000x1333 56dd215e4c7c204bf682908b59578f1a.jpg
-```
-
-the leading `2000x1333` portion is hidden from the displayed/search title. The actual filename on disk is not changed.
+If the saved library becomes available again, Visual MediaPlayer automatically reopens it.
 
 ---
 
-# Fullscreen Behavior
+# Unsupported Media
 
-Fullscreen is available from Library, Info, and Player.
+Visual MediaPlayer recognizes a broad range of media file extensions, but actual decoding depends on the codecs and imaging components available on the Windows system.
 
-- `F11` toggles fullscreen globally.
-- `Esc` does **not** automatically exit fullscreen when another meaningful action is available.
-- Player `Esc` returns to Info while fullscreen remains active.
-- Info `Esc` returns to Library while fullscreen remains active.
-- Library subfolder `Esc` navigates upward while fullscreen remains active.
-- At the top Library, when no other action remains, `Esc` exits fullscreen.
+If a recognized file cannot be decoded, the app shows:
 
-This lets you navigate through Library → Info → Player and back without unnecessarily dropping out of fullscreen.
+> **This media is unsupported.**
+
+The notice is non-blocking and disappears automatically.
 
 ---
 
-# Windows Explorer / Open With
+# Media Formats
 
-The Installer build registers Visual MediaPlayer for supported media extensions so it can be selected from Windows Explorer.
+Common recognized video formats include:
 
-Typical use:
+`MP4`, `M4V`, `MKV`, `WEBM`, `AVI`, `MOV`, `WMV`, `ASF`, `MPG`, `MPEG`, `TS`, `M2TS`, `VOB`, `OGV`, `FLV`, `F4V`, `3GP`, `RM`, `RMVB`, `MXF`, and many related/legacy formats.
+
+Common recognized image formats include:
+
+`JPG`, `JPEG`, `PNG`, `APNG`, `BMP`, `GIF`, `TIFF`, `WEBP`, `HEIC`, `HEIF`, `AVIF`, `JXL`, `JPEG 2000`, `TGA`, `DDS`, `PSD`, `EXR`, `HDR`, `SVG`, and many camera RAW formats.
+
+Video playback uses **Windows Media Foundation**. Images use **GDI+** with a **Windows Imaging Component (WIC)** fallback.
+
+A recognized extension does not guarantee that every codec stored inside that file can be decoded on every Windows installation.
+
+---
+
+# Fullscreen
+
+Fullscreen is available in the Library, Info view, and Player.
+
+- `F11` toggles fullscreen.
+- `Esc` first performs the current view's Back/reset action.
+- Returning Player → Info → Library can therefore remain fullscreen throughout.
+- At the top Library, when there is nothing else for `Esc` to close or navigate, `Esc` leaves fullscreen.
+
+---
+
+# Windows Explorer Integration
+
+The Installer build registers Visual MediaPlayer with Windows so supported media can be opened through **Open with**.
 
 1. Right-click a media file.
 2. Choose **Open with**.
 3. Select **Visual MediaPlayer**.
-4. Choose **Always** if you want Windows to remember the association.
-
-Videos opened directly from Explorer can enter playback directly.
 
 ---
 
-# Installation Options
+# Installer & Portable Builds
 
 ## Installer
 
-Build/output:
-
-```text
-VisualMediaPlayerSetup.exe
-```
-
-The installer can:
+The Installer build can:
 
 - Install Visual MediaPlayer
 - Create a Start Menu shortcut
-- Register **Open with Visual MediaPlayer** associations
-- Add Visual MediaPlayer to Installed Apps
+- Register Open With support
+- Add the app to Installed Apps
 - Install an uninstaller
 
-The uninstaller removes the installed application, shortcuts, registration, and application settings. It also provides an optional cache-cleanup choice rather than deleting generated cache data without permission.
+The uninstaller removes the application, shortcuts, registration, and app settings. Generated media cache cleanup remains optional.
 
 ## Portable
 
-Build/output:
+The Portable build requires no installation. Run:
 
 ```text
 VisualMediaPlayer.exe
 ```
-
-No installation is required. Run the executable directly.
-
-> Windows SmartScreen may warn about unsigned locally built executables.
-
----
-
-# Settings
-
-Application settings are stored under:
-
-```text
-%LOCALAPPDATA%\VisualMediaPlayer\
-```
-
-The app remembers core preferences such as the selected library root and global Videos/Images category.
-
-Playback-session states such as Auto Next, slideshow, Native Size, and adjusted playback volume are intentionally reset when their corresponding media session is exited.
 
 ---
 
@@ -665,119 +341,51 @@ Playback-session states such as Auto Next, slideshow, Native Size, and adjusted 
 - Direct3D 11-capable graphics hardware
 - Windows Media Foundation
 - GDI+ / Windows Imaging Component
-- Compatible system media codecs for the specific formats being played
+- Compatible Windows codecs for the media being played
 
-No account, browser, web server, or cloud service is required for normal local playback.
+No account, browser, cloud service, or internet connection is required for normal local playback.
 
 ---
 
 # Building From Source
 
-Visual MediaPlayer is built as a native **x64 Release** C++ application.
+Visual MediaPlayer is a native **C++17 x64** Windows application.
 
-Recommended environment:
+### Portable
 
-- Visual Studio 2026 / compatible MSVC installation
-- MSVC Platform Toolset **v145**
+Run:
+
+```text
+Portable\Build.bat
+```
+
+### Installer
+
+Run:
+
+```text
+Installer\BuildInstaller.bat
+```
+
+Recommended build environment:
+
+- Visual Studio / MSVC
 - Windows SDK
 - C++17
-- x64 target
-- Release configuration
-
-## Portable build
-
-From:
-
-```text
-Portable\
-```
-
-run:
-
-```text
-Build.bat
-```
-
-The resulting application is:
-
-```text
-VisualMediaPlayer.exe
-```
-
-## Installer build
-
-From:
-
-```text
-Installer\
-```
-
-run:
-
-```text
-BuildInstaller.bat
-```
-
-The resulting installer is:
-
-```text
-VisualMediaPlayerSetup.exe
-```
+- x64 Release configuration
 
 ---
 
-# Project Layout
+## Technology
 
-```text
-Visual-MediaPlayer-1.0\
-├─ Portable\
-│  ├─ Build.bat
-│  └─ Source\
-│     ├─ VisualMediaPlayer.sln
-│     ├─ VisualMediaPlayer.vcxproj
-│     ├─ src\
-│     └─ res\
-├─ Installer\
-│  ├─ BuildInstaller.bat
-│  ├─ Source\
-│  │  ├─ VisualMediaPlayer.sln
-│  │  ├─ VisualMediaPlayer.vcxproj
-│  │  ├─ src\
-│  │  └─ res\
-│  └─ Installer\
-│     ├─ VisualMediaPlayerSetup.vcxproj
-│     └─ src\
-└─ README.md
-```
+- C++17
+- Win32 API
+- Direct3D 11 / DXGI
+- Windows Media Foundation
+- GDI+
+- Windows Imaging Component (WIC)
+- Windows Shell APIs
 
 ---
 
-# Technology
-
-- **C++17**
-- **Win32 API**
-- **Direct3D 11**
-- **DXGI**
-- **Windows Media Foundation**
-- **GDI+**
-- **Windows Imaging Component (WIC)**
-- **Windows Shell APIs**
-- Native Windows installer/uninstaller
-
----
-
-# Design Principles
-
-Visual MediaPlayer is intentionally focused on local visual media:
-
-- Keep the interface compact and predictable.
-- Keep media navigation fast even with large folders.
-- Prefer background generation over blocking the UI.
-- Cache expensive preview work without modifying originals.
-- Keep VR behavior isolated from normal flat-media controls.
-- Make keyboard and mouse actions consistent with the current view.
-- Fail gracefully when a file cannot be decoded or a saved library is temporarily unavailable.
-
----
-
-**Visual MediaPlayer 12.5.5**
+**Visual MediaPlayer**
